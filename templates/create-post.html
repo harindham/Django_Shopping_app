@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+    {% block title %} Add-Item {% endblock %}
+
+    {% block css %}
+        
+        h2{
+            text-align: center;
+        }
+        #home-link a{
+            font-size: 150%;
+            text-decoration: none;
+        }
+        #create-post{
+            background-color: white;
+            padding: 3%;
+            border: 1px solid black;
+            margin-left: 25%;
+            width: 50%;
+        }
+        #submit-btn{
+            text-align: center;
+        }
+    {% endblock %}
+
+    {% block body %}
+    <div class="container mt-2">
+        <form id="create-post" action="create-post" method="POST">
+            <span id="home-link"><a href="/">&#8592;Back</a></span>
+            <h2>Create Post</h2>
+            {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %} 
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="Price" class="form-label">Price:</label>
+                <input type="text" class="form-control" id="Price" name="Price">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <input type="text" class="form-control" id="description" name="description" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <input type="text" class="form-control" id="category" name="category">
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image: </label>
+                <input class="form-control form-control-sm" id="image" name='image' type="file">
+              </div>
+            <div id="submit-btn">
+            <button type="submit" class="btn btn-primary">Create</button>
+            </div>  
+        </form> 
+
+    </div>
+    {% endblock %}
+    

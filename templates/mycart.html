@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %} MyCart-amazon {% endblock %}
+    <!-- <style> -->
+    {% block css %}
+    .attr1-detail{
+      background-color: green;
+      width: 100%;
+      height: 200px;
+    }
+    .col-md-3{
+      display: inline-block;
+      margin-left: -6px;
+    }
+      
+    {% endblock %} 
+
+
+{% block body %}
+      <div class="container-fluid">
+        <h3 class="my-5">Following are the items in your cart:</h3><hr size="15" noshade>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product name</th>
+              <th scope="col">quantity</th>
+              <th scope="col">Price/Item</th>
+              <th scope="col">Total Price</th>
+            </tr>
+          </thead>
+          <tbody id="setdiv">
+            <!-- <span id="setdiv">
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+            </span> -->
+          </tbody>
+        </table>
+      </div>
+
+
+{% endblock %}
+
+{% block jss %}
+  <script>
+    if(localStorage.getItem('cart')==null)
+    {
+      var cart={};
+    }
+    else
+    {
+      cart=JSON.parse(localStorage.getItem('cart'));
+    }
+    if(localStorage.getItem('itemdetails')==null)
+    {
+      var itemdetails={};
+    }
+    else
+    {
+      itemdetails=JSON.parse(localStorage.getItem('itemdetails'));
+    }
+
+
+    var i=0;
+    console.log("hello");
+    $.each(itemdetails, function( index, value ){
+      console.log(value[0]);
+      $("#setdiv").append('<tr><th scope="row">'+value[0]+'</th><td>'+value[1]+'</td><td>'+value[2]+'</td><td>'+value[1]*value[2]+'</td><td width="17%"><button class="removeitem btn btn-danger mx-4" id="rem-'+value[3]+'">-</button><button class="additem btn btn-success" id="add-'+value[3]+'">+</button></td></tr>');
+      i=i+1;
+    });
+
+    console.log(itemdetails);
+    $(".removeitem").click(function(){
+      cart=JSON.parse(localStorage.getItem('cart'));
+      id=this.id;
+      idslic=id.slice(4,);
+      cart["prod_"+idslic]=cart["prod_"+idslic]-1;
+      itemdetails["prod_"+idslic][1]=itemdetails["prod_"+idslic][1]-1;
+      if(cart["prod_"+idslic]==0){
+        delete cart["prod_"+idslic];
+        delete itemdetails["prod_"+idslic];
+      }
+      localStorage.setItem('cart',JSON.stringify(cart));
+      localStorage.setItem('itemdetails',JSON.stringify(itemdetails));
+      location.reload();
+    })
+
+
+    $(".additem").click(function(){
+      cart=JSON.parse(localStorage.getItem('cart'));
+      id=this.id;
+      idslic=id.slice(4,);
+      cart["prod_"+idslic]=cart["prod_"+idslic]+1;
+      itemdetails["prod_"+idslic][1]=itemdetails["prod_"+idslic][1]+1;
+      localStorage.setItem('cart',JSON.stringify(cart));
+      localStorage.setItem('itemdetails',JSON.stringify(itemdetails));
+      location.reload();
+    })
+
+
+    $("#clearcartbtn").click(function(){
+      localStorage.clear();
+      cart={};
+      itemdetails={};
+      localStorage.setItem('cart',JSON.stringify(cart));
+      localStorage.setItem('itemdetails',JSON.stringify(itemdetails));
+      location.reload();
+    })
+
+    var i=0;
+    $.each(cart, function( index, value ){
+      i=i+1;
+    });
+    if(i==0){
+      $("#clearcartbtn").css("visibility","hidden");
+    }
+    else{
+      $("#clearcartbtn").css("visibility","visible");
+    }
+
+
+  </script>
+  
+  
+{% endblock %}
