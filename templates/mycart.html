@@ -14,6 +14,13 @@
       display: inline-block;
       margin-left: -6px;
     }
+    #buybtncontainer{
+      margin-top: 20px;
+      text-align: center;
+    }
+    #homebtn{
+      margin-right: 40px;
+    }
       
     {% endblock %} 
 
@@ -26,7 +33,7 @@
           <thead>
             <tr>
               <th scope="col">Product name</th>
-              <th scope="col">quantity</th>
+              <th scope="col">qty</th>
               <th scope="col">Price/Item</th>
               <th scope="col">Total Price</th>
             </tr>
@@ -42,6 +49,10 @@
             </span> -->
           </tbody>
         </table>
+      </div>
+      <div id="buybtncontainer">
+      <a href='/'><button id="homebtn" class="btn btn-primary">Buy More Products</button></a>  
+      <a href='/placeorder'><button id="buybtn" class="btn btn-primary">Buy cart</button></a>
       </div>
 
 

@@ -19,6 +19,18 @@ class Post(models.Model):
     description=models.TextField()
     img = models.ImageField(upload_to='pics')
     Price = models.IntegerField()
-    category = models.CharField(max_length=60, choices=Category_CHOICES)
+    category = models.CharField(max_length=60, choices=Category_CHOICES) 
 
+
+class Order(models.Model):
+    email = models.EmailField(max_length = 254)
+    itemdetails = models.TextField()
+    firstname = models.CharField(max_length=100)
+    lastname = models.CharField(max_length=100)
+    address = models.TextField()
+    phonenumber = models.IntegerField()
+    totalprice = models.IntegerField()
+    noofitems = models.IntegerField()
+    status = models.CharField(max_length=100)
+    timeoforder = models.DateField(auto_now_add=True)
 

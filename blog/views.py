@@ -2,11 +2,11 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Post
+from .models import Post,Order
 from math import ceil
+import json
 
 def index(request):
-
     posts=Post.objects.all()
     # n=len(posts)
     # nslides=n//4 + ceil((n/4)-(n//4))
@@ -47,16 +47,46 @@ def crtpost(request):
 
 
 
-def mycart(request):
-    return render(request,'mycart.html');
-# def newpage(request):
-#     name=request.POST["name"]
-#     password=request.POST["password"]
-#     if(request.POST["num1"]!='' and request.POST["num2"]!=''):
-#         num1=int(request.POST["num1"])
-#         num2=int(request.POST["num2"])
-#         ans=num1+num2
-#     else:
-#         ans="Information Invalid"    
-#     context={'ans':ans}
-#     return render(request,'newpage.html',context)          
+def mycart(request):       
+    return render(request,'mycart.html')
+
+
+def aboutus(request):       
+    return render(request,'aboutus.html')
+
+def contactus(request):       
+    return render(request,'contactus.html')  
+
+def myorders(request):  
+    allorders=Order.objects.filter(email=request.user.email)
+    dic={}
+    for index in allorders:
+        dic[index.id]=json.loads(index.itemdetails)
+    print(dic)    
+    return render(request,'myorders.html',{'allorders':allorders,'dic':dic})      
+
+
+def placeorder(request):
+
+
+    if request.method == 'POST':
+        if request.POST.get('address1') and request.POST.get('phonenumber') and request.POST.get('itemdetails') and request.POST.get('firstname'):
+            order=Order()
+            order.email=request.user.email
+            order.itemdetails = request.POST.get('itemdetails') 
+            order.firstname = request.POST.get('firstname')
+            order.lastname = request.POST.get('lastname')
+            order.address = request.POST.get('address1') +' '+ request.POST.get('address2')+' '+request.POST.get('city')+', '+request.POST.get('state')+' '+request.POST.get('zip')
+            order.phonenumber = request.POST.get('phonenumber')
+            order.totalprice=request.POST.get('totprice')
+            order.noofitems=request.POST.get('noofitems')
+            order.status='Waiting...'
+            order.save()
+            thankmessage="Thanks for shopping with us. Your order id is "+str(order.id)
+            return render(request,'order-page.html',{'thank':thankmessage})
+        else:
+            messages.info(request,'Invalid Information')
+            return redirect('/placeorder')      
+
+    else:        
+        return render(request,'order-page.html');       

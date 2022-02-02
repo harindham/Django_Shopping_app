@@ -14,35 +14,10 @@
         background-color: red;
 
       }
+      #orderbtn{
+        margin-left: 10px;
+      }
     {% endblock %} 
-
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Quick View</button>
-    
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
 
 
     {% block body %}
@@ -69,14 +44,6 @@
       </div>
     </div>
 
-
-
-
-
-
-
-
-
     <br>
     <div class="container">
 
@@ -86,6 +53,9 @@
           {% if request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link active btn-success" aria-current="page" href="mycart"> My cart (<span id="cart-count">0</span>) </a>
+            </li>
+            <li class="nav-item">
+              <a href='/placeorder' id='orderbtn' class="nav-link active btn-success">Buy cart</a>
             </li>
           {% endif %}
         </ul>
@@ -218,7 +188,7 @@
 
     function updatecartbtn(){
       //console.log(itemdetails);
-      //console.log(cart);
+      console.log(cart);
       $.each(cart, function( index, value ){
         if(value!=0){
           $("#cart-btn-"+index.slice(5,)).html('<button id="minus-'+index+'" class="btn btn-info btn-sm minus">-</button><span class="mx-2" id="">'+value+'</span><button id="plus-'+index+'" class="btn btn-info btn-sm plus">+</button>');
@@ -231,6 +201,13 @@
       });
       $.each(cart, function( index, value ){
         itemdetails[index]=[$("#name"+index).html(),value,$("#price"+index).html(),index.slice(5,)];
+      });
+      $.each(cart, function( index, value ){
+        if(value==0){
+          console.log('hello');
+          delete(cart[index]);
+          delete(itemdetails[index]);
+        }
       });
       updatecartsum();
       localStorage.setItem('cart',JSON.stringify(cart));

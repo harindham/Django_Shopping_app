@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %} MyOrders-amazon {% endblock %}
+    <!-- <style> -->
+    {% block css %}
+    
+    #main-content{
+        padding: 20px;
+    }    
+
+    #order-container{
+        padding: 10px;
+        background-color: lightgray;
+    }
+
+    .col-md-3{
+        display: inline-block;
+        margin-left: -6px;
+    }
+
+     
+    {% endblock %} 
+
+<!-- <ul class="list-group list-group-flush">
+        {% for index,value in dic.items %} 
+        {% if index == order.id %}  
+        {% for index1,value1 in value.items %} 
+        <li class="list-group-item">{{value1.0}}</li>
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        </ul> -->
+
+
+{% block body %}
+<div id="main-content">
+    <h1>Your Orders</h1>
+    <hr>
+    <div class="container-fluid">    
+    {% for order in allorders %}
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="card my-4">
+                <h5 class="card-header">{{order.timeoforder}}<span id="orderstatus_{{order.id}}" style="float:right; color: green;">{{order.status}}</span></h5>
+                <div class="card-body">
+                <h5 class="card-title">Order #{{order.id}}</h5>
+                <p class="card-text">{{order.noofitems}} items</p>
+                <p class="card-text">Total: &#8377;{{order.totalprice}}</p>
+                <p id="orderline_{{order.id}}"></p>
+                <a href="#" class="">order details&#8594;</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>  
+</div>  
+
+{% endblock %}
+
+{% block jss %}
+  <script>
+
+
+    {% for order in allorders %}  
+    if($("#orderstatus_{{order.id}}").html()=='Waiting...'){
+        $("#orderstatus_{{order.id}}").css('color','red');
+        $("#orderline_{{order.id}}").html('R.S. Stationary has not yet Accepted your order. Just wait a few minutes to get confirmation from us.');
+    }
+    else if($("#orderstatus_{{order.id}}").html()=='Accepted'){
+        $("#acceptsign").css('display','');
+        $("#orderline_{{order.id}}").html('R.S. Stationary has Accepted your order. It will be soon on its way.');
+    }
+    else if($("#orderstatus_{{order.id}}").html()=='Dispatched'){
+        $("#orderstatus_{{order.id}}").css('color','blue');
+        $("#orderline_{{order.id}}").html('R.S. Stationary has Dispatched your order. It will delivered soon.');
+    }
+    {% endfor %}
+  </script>
+  
+{% endblock %}
