@@ -31,6 +31,9 @@
 
 <div class="container my-5">
 <h2>Review Your Cart:</h2>
+<div id="cartwithoutitems">
+  <p>Nothing to buy!</p>
+</div>
 <ul class="list-group" id="item-review">
     
 </ul>
@@ -41,66 +44,68 @@
 </div>
 
 </div>
-<div class="container my-5">
-    <h2 style="margin-bottom: 20px;">Enter Details and Confirm Your Order: </h2>
+<div id="cartwithitems">
+  <div class="container my-5">
+      <h2 style="margin-bottom: 20px;">Enter Details and Confirm Your Order: </h2>
 
-    {% for message in messages %}
-                <div class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-    {% endfor %} 
-
-    <form action="/placeorder" method="post">
-        <input type="hidden" class="form-control" id="totprice" name="totprice">
-        <input type="hidden" class="form-control" id="noofitems" name="noofitems">
-        <input type="hidden" class="form-control" id="orderdetails" name="itemdetails">
-        <div class="form-group">
-          <label for="Email">Email</label>
-          <input type="email" class="form-control" id="Email" placeholder="1234 Main St" name="email">
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="firstname">First Name</label>
-            <input type="text" class="form-control" id="firstname" placeholder="firstname" name="firstname">
+      {% for message in messages %}
+                  <div class="alert alert-danger" role="alert">
+                      {{ message }}
+                  </div>
+      {% endfor %} 
+                  
+      <form action="/placeorder" method="post">
+          <input type="hidden" class="form-control" id="totprice" name="totprice">
+          <input type="hidden" class="form-control" id="noofitems" name="noofitems">
+          <input type="hidden" class="form-control" id="orderdetails" name="itemdetails">
+          <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" placeholder="1234 Main St" name="email">
           </div>
-          <div class="form-group col-md-6">
-            <label for="lastname">Last Name</label>
-            <input type="text" class="form-control" id="lastname" placeholder="lastname" name="lastname">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" id="firstname" placeholder="firstname" name="firstname">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" id="lastname" placeholder="lastname" name="lastname">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="inputAddress">Address</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address1">
-        </div>
-        <div class="form-group">
-          <label for="inputAddress2">Landmark</label>
-          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="address2">
-        </div>
-        <div class="form-group">
-          <label for="phonenumber">Contact Number:</label>
-          <input type="text" class="form-control" id="phonenumber" name="phonenumber">
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="inputCity" name="city">
+          <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="address1">
           </div>
-          <div class="form-group col-md-4">
-            <label for="inputState">State</label>
-            <select id="inputState" class="form-control" name="state">
-              <option selected>Jalandhar</option>
-              <option>...</option>
-            </select>
+          <div class="form-group">
+            <label for="inputAddress2">Landmark</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="address2">
           </div>
-          <div class="form-group col-md-2">
-            <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="inputZip" name="zip">
+          <div class="form-group">
+            <label for="phonenumber">Contact Number:</label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber">
           </div>
-        </div>
-        <div class="my-2">
-        <button type="submit" class="btn btn-primary">Place order</button>
-        </div>
-      </form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">City</label>
+              <input type="text" class="form-control" id="inputCity" name="city">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputState">State</label>
+              <select id="inputState" class="form-control" name="state">
+                <option selected>Jalandhar</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputZip">Zip</label>
+              <input type="text" class="form-control" id="inputZip" name="zip">
+            </div>
+          </div>
+          <div class="my-2">
+          <button type="submit" class="btn btn-primary">Place order</button>
+          </div>
+        </form>
+  </div>
 </div>
 <button type="button" style="visibility: hidden;" class="btn btn-primary" data-toggle="modal" id="launch" data-target="#exampleModalCenter">
   Launch demo modal
@@ -120,7 +125,7 @@ var cart={};
 }
 else
 {
-cart=JSON.parse(localStorage.getItem('cart'));
+  cart=JSON.parse(localStorage.getItem('cart'));
 }
 if(localStorage.getItem('itemdetails')==null)
 {
@@ -134,6 +139,18 @@ else
 dic={}
 var sum=0;
 var tot=0;
+var count=0;
+$.each(itemdetails, function( index, value ){
+  count=count+1;
+});
+if(count==0){
+  $("#cartwithitems").css('display','none');
+  $("#cartwithoutitems").css('display','');
+}
+else{
+  $("#cartwithitems").css('display','');
+  $("#cartwithoutitems").css('display','none');
+}
 $.each(itemdetails, function( index, value ){
     dic[index]=value;
     sum=sum+value[1];

@@ -12,6 +12,17 @@
     <style>
         {% block css %} {% endblock %}
 
+        #welcomeuser{
+          color: yellow;
+        }
+
+        #welcomeuser:hover {
+          text-decoration: none;
+        }
+        .dropdown-menu{
+          min-width: 3rem;
+          padding: 0rem;
+        }
     </style>
   </head>
   <body>
@@ -24,45 +35,60 @@
     
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item {% block activehome %}{% endblock %}">
             <a class="nav-link" href="/">Home</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item {% block activeaboutus %}{% endblock %}">
             <a class="nav-link" href="/aboutus">About Us</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item {% block activecontactus %}{% endblock %}">
             <a class="nav-link" href="/contactus">Contact Us</a>
           </li>
-          <li class="nav-item active">
+          <li id="myorderbtn" class="nav-item {% block activemyorders %}{% endblock %}">
             <a class="nav-link" href="/myorders">My Orders</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" id="clearcartbtn" style="visibility: hidden; color: white;">Clear-Cart</a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" action="/searchpage" method="POST">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchitem">
           <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-      </div>
+        <div class=" dropdown">
+          <a class="dropdown-toggle mx-3" id="welcomeuser" role="button" href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu w-10" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" id="logoutbtn" href="accounts/logout">Logout</a>
+            <!-- <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a> -->
+          </div>
+        </div>
+    </div>
     </nav>
     {% block body %} {% endblock %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+
+
     {% block jss %}{% endblock %}
 
   </body>
+  <script>
+
+    {% if request.user.is_authenticated %}
+      $("#welcomeuser").html("<b><em>"+'{{user.username}}<em><b>');
+
+    {% else %}
+      $("#myorderbtn").css("display",'none');
+      $("#welcomeuser").css("display",'none');
+    {% endif %}  
+
+    $("#logoutbtn").click(function(){
+      localStorage.clear();
+    })
+  </script>
 </html>

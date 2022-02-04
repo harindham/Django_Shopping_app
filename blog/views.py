@@ -10,12 +10,12 @@ def index(request):
     posts=Post.objects.all()
     # n=len(posts)
     # nslides=n//4 + ceil((n/4)-(n//4))
-    count=Post.objects.all().values('category').distinct().count()
-    cat=Post.objects.all().values('category').distinct()
+    count=posts.values('category').distinct().count()
+    cat=posts.values('category').distinct()
     allprod=[]
     for i in range(count):
         prod=Post.objects.filter(category=cat[i]['category']).order_by('-id')
-        n=len(posts)
+        n=len(prod)
         nslides=n//4 + ceil((n/4)-(n//4))
         allprod.append([prod,range(0,nslides),nslides])
     # if request.user.is_authenticated:
@@ -23,7 +23,36 @@ def index(request):
     #     return render(request,'index.html', params )
     # params={'no_of_slides':nslides,'range':range(1,nslides),'posts':posts}
     params={'allprod':allprod}
-    return render(request,'index.html', params)    
+    return render(request,'index.html', params)
+
+
+def searchfunc(item,searchitem):
+    searchitem=searchitem.lower()
+    if searchitem in item.title.lower() or searchitem in item.category.lower() or searchitem in item.description.lower():
+        return True
+    else:
+        return False
+
+
+def search(request):
+    if request.method == 'POST':
+        searchitem=request.POST.get('searchitem')
+        print(searchitem)
+        posts=Post.objects.all()
+        # n=len(posts)
+        # nslides=n//4 + ceil((n/4)-(n//4))
+        count=posts.values('category').distinct().count()
+        cat=posts.values('category').distinct()
+        allprod=[]
+        for i in range(count):
+            prodtemp=Post.objects.filter(category=cat[i]['category']).order_by('-id')
+            prod=[item for item in prodtemp if searchfunc(item,searchitem)]
+            n=len(prod)
+            nslides=n//4 + ceil((n/4)-(n//4))
+            if len(prod) != 0:
+                allprod.append([prod,range(0,nslides),nslides])
+        params={'allprod':allprod}
+        return render(request,'index.html', params)        
 
 
 def crtpost(request):

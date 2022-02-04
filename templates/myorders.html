@@ -23,6 +23,8 @@
      
     {% endblock %} 
 
+    {% block activemyorders %} active {% endblock %}
+
 <!-- <ul class="list-group list-group-flush">
         {% for index,value in dic.items %} 
         {% if index == order.id %}  
@@ -36,7 +38,7 @@
 
 {% block body %}
 <div id="main-content">
-    <h1>Your Orders</h1>
+    <h2>Your Orders:</h2>
     <hr>
     <div class="container-fluid">    
     {% for order in allorders %}
