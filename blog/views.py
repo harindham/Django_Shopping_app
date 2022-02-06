@@ -83,11 +83,19 @@ def mycart(request):
 def aboutus(request):       
     return render(request,'aboutus.html')
 
-def contactus(request):       
+def contactus(request):
+    if request.method == 'POST':
+        if request.POST.get('email') and request.POST.get('content'):
+            messages.success(request,'Message sent successfully! We will get back to you soon.')
+            return redirect('blog-contactus')
+        else:
+            messages.info(request,'Invalid Information')
+            return redirect('blog-contactus')  
+
     return render(request,'contactus.html')  
 
 def myorders(request):  
-    allorders=Order.objects.filter(email=request.user.email)
+    allorders=Order.objects.filter(email=request.user.email).order_by('-id')
     dic={}
     for index in allorders:
         dic[index.id]=json.loads(index.itemdetails)

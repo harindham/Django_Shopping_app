@@ -38,21 +38,21 @@
           <li class="nav-item {% block activehome %}{% endblock %}">
             <a class="nav-link" href="/">Home</a>
           </li>
+          <li id="myorderbtn" class="nav-item {% block activemyorders %}{% endblock %}">
+            <a class="nav-link" href="/myorders">My Orders</a>
+          </li>
           <li class="nav-item {% block activeaboutus %}{% endblock %}">
             <a class="nav-link" href="/aboutus">About Us</a>
           </li>
           <li class="nav-item {% block activecontactus %}{% endblock %}">
             <a class="nav-link" href="/contactus">Contact Us</a>
           </li>
-          <li id="myorderbtn" class="nav-item {% block activemyorders %}{% endblock %}">
-            <a class="nav-link" href="/myorders">My Orders</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="#" id="clearcartbtn" style="visibility: hidden; color: white;">Clear-Cart</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="/searchpage" method="POST">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchitem">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search by name, category etc." aria-label="Search" name="searchitem">
           <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <div class=" dropdown">

@@ -5,9 +5,9 @@ from django.utils.timezone import now
 User = settings.AUTH_USER_MODEL
 
 Category_CHOICES = (
-    ('electronics','electronics'),
-    ('shoes', 'shoes'),
-    ('tshirt','tshirt'),
+    ('Electronics','Electronics'),
+    ('Shoes', 'Shoes'),
+    ("Men's wear", "Men's wear"),
 )
 
 class Post(models.Model):

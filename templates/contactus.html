@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %} Amazon-Contactus {% endblock %}
+    <!-- <style> -->
+    {% block css %}
+        
+        
+
+    {% endblock %} 
+
+    {% block activecontactus %} active {% endblock %}
+
+
+  {% block body %}
+  
+  {% for message in messages %}
+                  <div class="alert alert-success" role="alert">
+                      {{ message }}
+                  </div>
+    {% endfor %}
+
+  <div class="container">
+
+    
+
+    <h2 class="my-3">We Would Love To Hear From You!</h2>
+    
+    <form class="my-4" action="/contactus" method="post">
+        <div class="form-group">
+        <label for="exampleFormControlInput1">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
+        </div>
+        <!-- <div class="form-group">
+        <label for="exampleFormControlSelect1">Example select</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        </div>
+        <div class="form-group">
+        <label for="exampleFormControlSelect2">Example multiple select</label>
+        <select multiple class="form-control" id="exampleFormControlSelect2">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        </div> -->
+        <div class="form-group">
+        <label for="exampleFormControlTextarea1"></label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Ask Anything..." name="content"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+
+
+  </div>
+
+  {% endblock %}
+
+  {% block jss %}
+  <script>
+ 
+
+  </script>
+  
+  
+  {% endblock %}
