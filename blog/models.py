@@ -7,6 +7,7 @@ User = settings.AUTH_USER_MODEL
 Category_CHOICES = (
     ('Electronics','Electronics'),
     ('Shoes', 'Shoes'),
+    ('Kids Wear', 'Kids Wear'),
     ("Men's wear", "Men's wear"),
 )
 
