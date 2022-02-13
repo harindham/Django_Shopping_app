@@ -9,6 +9,7 @@ Category_CHOICES = (
     ('Shoes', 'Shoes'),
     ('Kids Wear', 'Kids Wear'),
     ("Men's wear", "Men's wear"),
+    ("Women Fashion", "Women Fashion")
 )
 
 class Post(models.Model):
