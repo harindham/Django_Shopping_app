@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, auth
 
 # Create your views here.
 
+user_created=0
 
 def login(request):
     if request.method== 'POST':
@@ -16,7 +17,7 @@ def login(request):
             auth.login(request, user)
             return redirect("/")
         else:
-            messages.info(request,'invalid credentials')
+            messages.error(request,'invalid credentials!')
             return redirect('login')
 
     else:
@@ -33,17 +34,21 @@ def register(request):
             messages.info(request,'Username Required')
             return redirect('register')
 
-        if(request.POST['Password']==''):
+        if(request.POST['Password1']==''):
             messages.info(request,'Password Required')
-            return redirect('register')     
+            return redirect('register')
+
+        if(request.POST['Password2']==''):
+            messages.info(request,'Passwords does not match!')
+            return redirect('register')         
 
           
 
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+        password1 = request.POST['Password1']
+        password2 = request.POST['Password2']
         email = request.POST['email']
 
         if password1==password2:
@@ -57,6 +62,7 @@ def register(request):
                 user = User.objects.create_user(username=username, password=password1, email=email,first_name=first_name,last_name=last_name)
                 user.save();
                 print('user created')
+                messages.success(request,'Account Created Successfully!')
                 return redirect('login')
 
         else:
